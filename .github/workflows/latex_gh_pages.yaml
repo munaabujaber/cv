@@ -20,13 +20,9 @@ jobs:
         with:
           root_file: cv.tex
 
-      - name: Install pdf2htmlEX
+      - name: Use Docker to Convert PDF to HTML
         run: |
-          sudo apt-get update
-          sudo apt-get install -y pdf2htmlEX
-
-      - name: Convert PDF to HTML
-        run: pdf2htmlEX cv.pdf cv.html
+          docker run --rm -v ${{ github.workspace }}:/data bwits/pdf2htmlex pdf2htmlEX /data/cv.pdf /data/cv.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -35,4 +31,3 @@ jobs:
           publish_dir: ./
           publish_branch: gh-pages
           keep_files: true
-          force_orphan: true
