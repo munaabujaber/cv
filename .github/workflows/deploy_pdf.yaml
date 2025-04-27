@@ -16,23 +16,49 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Build
+
+      - name: Build PDF
         uses: xu-cheng/latex-action@v2
         with:
           root_file: cv.tex
-      - name: Copy
+
+      - name: Prepare output
         run: |
-          mkdir out
+          mkdir -p out
           cp ./cv.pdf ./out/cv.pdf
-      - uses: actions/upload-artifact@v4
+
+          cat <<EOF > out/index.html
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Muna Abu Jaber Full CV</title>
+            <style>
+              body { margin: 0; padding: 0; height: 100vh; display: flex; flex-direction: column; }
+              header { background: #222; color: white; padding: 1em; text-align: center; font-family: sans-serif; }
+              iframe { flex: 1; width: 100%; border: none; }
+            </style>
+          </head>
+          <body>
+            <header>
+              <h1>Curriculum Vitae</h1>
+            </header>
+            <iframe src="cv.pdf"></iframe>
+          </body>
+          </html>
+          EOF
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
         with:
           name: cv
-          path: out/cv.pdf
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@3.6.2
+          path: out
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          CLEAN: true
-          SINGLE_COMMIT: true
-          FOLDER: out
+          branch: gh-pages
+          folder: out
+          clean: true
+          single-commit: true
