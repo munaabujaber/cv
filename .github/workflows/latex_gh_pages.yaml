@@ -13,10 +13,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Set up LaTeX
-        uses: dante-ev/latex-action@v2
+        uses: dante-ev/latex-action@latest
+        with:
+          root_file: cv.tex
 
       - name: Compile LaTeX to PDF
         run: latexmk -pdf cv.tex
