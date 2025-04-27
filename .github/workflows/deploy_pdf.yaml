@@ -36,14 +36,10 @@ jobs:
             <title>Muna Abu Jaber Full CV</title>
             <style>
               body { margin: 0; padding: 0; height: 100vh; display: flex; flex-direction: column; }
-              header { background: #222; color: white; padding: 1em; text-align: center; font-family: sans-serif; }
               iframe { flex: 1; width: 100%; border: none; }
             </style>
           </head>
           <body>
-            <header>
-              <h1>Curriculum Vitae</h1>
-            </header>
             <iframe src="cv.pdf"></iframe>
           </body>
           </html>
