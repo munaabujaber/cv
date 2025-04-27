@@ -21,7 +21,9 @@ jobs:
           root_file: cv.tex
 
       - name: Install pdf2htmlEX
-        run: sudo apt-get update && sudo apt-get install -y pdf2htmlex
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pdf2htmlEX
 
       - name: Convert PDF to HTML
         run: pdf2htmlEX cv.pdf cv.html
@@ -33,3 +35,4 @@ jobs:
           publish_dir: ./
           publish_branch: gh-pages
           keep_files: true
+          force_orphan: true
