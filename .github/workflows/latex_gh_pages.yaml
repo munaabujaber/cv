@@ -1,0 +1,33 @@
+# @format
+
+name: Build and Deploy LaTeX CV
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up LaTeX
+        uses: dante-ev/latex-action@v2
+
+      - name: Compile LaTeX to PDF
+        run: latexmk -pdf cv.tex
+
+      - name: Convert PDF to HTML
+        run: pdf2htmlEX cv.pdf cv.html
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+          publish_branch: gh-pages
+          keep_files: true
